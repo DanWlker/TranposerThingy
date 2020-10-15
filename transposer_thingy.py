@@ -38,6 +38,9 @@ print("What are the chords used for this song? (separate them by space)")
 ori_chords = input()
 ori_chords_arr = ori_chords.split()
 
+for i in range(len(ori_chords_arr)):
+    ori_chords_arr[i] = ori_chords_arr[i] + ' ' #enables easier checking
+
 print("What key would you like to transpose it to?")
 transposed_key = input()
 transposed_value = keys_dict[transposed_key]
@@ -47,26 +50,18 @@ if transposed_value < ori_value: #used to prevent negative
 
 steps = transposed_value - ori_value #see how much to transpose
 
-for i in range(len(ori_chords_arr)):
-    if len(ori_chords_arr[i]) == 1:
-        ori_chords_arr[i] = keys_arr[ (keys_dict[ori_chords_arr[i].upper()] + steps) % 12]
-        continue
+trans_chords_arr = []
 
-    if len(ori_chords_arr[i]) == 2:
-        if(ori_chords_arr[i][1] != '#' or ori_chords_arr[i][1] != 'b'):
-            ori_chords_arr[i] = keys_arr[ (keys_dict[ori_chords_arr[i][0:1].upper()] + steps) % 12] + ori_chords_arr[i][1]
-        else:
-            ori_chords_arr[i] = keys_arr[ (keys_dict[ori_chords_arr[i][0].upper()] + steps) % 12] + ori_chords_arr[i][1]
+for i in range(len(ori_chords_arr)):
+    if(ori_chords_arr[i][1] != '#' or ori_chords_arr[i][1] != 'b'):
+        trans_chords_arr.append(keys_arr[ (keys_dict[ori_chords_arr[i][0].upper()] + steps) % 12] + ori_chords_arr[i][1:])
     else:
-        if(ori_chords_arr[i][1] != '#' or ori_chords_arr[i][1] != 'b'):
-            ori_chords_arr[i] = keys_arr[ (keys_dict[ori_chords_arr[i][0].upper()] + steps) % 12] + ori_chords_arr[i][1:]
-        else:
-            ori_chords_arr[i] = keys_arr[(keys_dict[ori_chords_arr[i][0:1].upper()] + steps) % 12] + ori_chords_arr[i][2:]
+        trans_chords_arr.append(keys_arr[(keys_dict[ori_chords_arr[i][0:1].upper()] + steps) % 12] + ori_chords_arr[i][2:])
 
 print("The original chords are: ")
-print(ori_chords)
+print(''.join(ori_chords_arr))
 
 print("The transposed chords are: ")
-print(" ".join(ori_chords_arr))
+print(''.join(trans_chords_arr))
 
 
